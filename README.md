@@ -42,31 +42,31 @@ The images will then appear automatically. Delete this comment when finished.
 
 | Empty form (top) | Empty form (bottom) |
 |:---:|:---:|
-| ![Patient form - top](docs/screenshots/01-patient-form.png) | ![Patient form - bottom](docs/screenshots/01-patient-form2.png) |
+| ![Patient form - top](docs/screenshots/01-patient-form1.PNG) | ![Patient form - bottom](docs/screenshots/01-patient-form2.PNG) |
 
 | Filled with sample data (top) | Filled with sample data (bottom) |
 |:---:|:---:|
-| ![Filled form - top](docs/screenshots/02-patient-form-filled.png) | ![Filled form - bottom](docs/screenshots/02-patient-form-filled2.png) |
+| ![Filled form - top](docs/screenshots/02-patient-form-filled1.PNG) | ![Filled form - bottom](docs/screenshots/02-patient-form-filled2.PNG) |
 
 | Low risk result | Moderate risk result | High risk result |
 |:---:|:---:|:---:|
-| ![Low risk](/docs/screenshots/03-result-low.PNG) | ![Moderate risk](docs/screenshots/04-result-moderate.png) | ![High risk](docs/screenshots/05-result-high.png) |
+| ![Low risk](docs/screenshots/05-result-low.PNG) | ![Moderate risk](docs/screenshots/05-result-moderate.PNG) | ![High risk](docs/screenshots/05-result-high.PNG) |
 
 ### Admin interface
 
 | Admin login | Dashboard |
 |:---:|:---:|
-| ![Admin login](docs/screenshots/06-admin-login.png) | ![Dashboard](docs/screenshots/07-admin-dashboard.png) |
+| ![Admin login](docs/screenshots/06-admin-login.PNG) | ![Dashboard](docs/screenshots/07-admin-dashboard.PNG) |
 
 | Patient detail view | Model insights |
 |:---:|:---:|
-| ![Patient detail](docs/screenshots/08-admin-patient-detail.png) | ![Model insights](docs/screenshots/09-admin-model-insights.png) |
+| ![Patient detail](docs/screenshots/08-admin-patient-detail.PNG) | ![Model insights](docs/screenshots/09-admin-model-insights.PNG) |
 
 ### Backend
 
 | Console on startup | Data stored in MySQL |
 |:---:|:---:|
-| ![Console](docs/screenshots/10-console-startup.png) | ![MySQL table](docs/screenshots/11-mysql-table.png) |
+| ![Console](docs/screenshots/10-console-startup.PNG) | ![MySQL table](docs/screenshots/11-mysql-table.PNG) |
 
 ---
 
