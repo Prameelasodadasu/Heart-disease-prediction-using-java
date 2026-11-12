@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CardioPredict – Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f6f3;--card:#fff;--ink:#1f2933;--mute:#6b7680;--line:#e8e5df;--accent:#2f5d62;--accent-d:#244a4e;--soft:#e9f0ef;--low:#3f8f6b;--mod:#d49a3a;--high:#c4574f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.5}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em;margin:0}
+.bar{background:#fff;border-bottom:1px solid var(--line)}
+.bar .in{max-width:1120px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:9px}
+.tagadm{font:600 11px 'Inter',sans-serif;background:var(--soft);color:var(--accent);padding:3px 9px;border-radius:99px;letter-spacing:.5px}
+nav{display:none;gap:4px;margin-left:18px}
+nav button{background:none;border:0;padding:8px 14px;border-radius:9px;font:inherit;font-size:14px;font-weight:500;color:var(--mute);cursor:pointer}
+nav button.active{background:var(--soft);color:var(--accent)}
+.right{margin-left:auto;display:none;align-items:center;gap:12px;font-size:12.5px;color:var(--mute)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--low);margin-right:6px}
+main{max-width:1120px;margin:0 auto;padding:26px 20px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(31,41,51,.04)}
+.card h2{font-size:20px}.sub{color:var(--mute);font-size:13.5px;margin:3px 0 16px}
+input,select{padding:10px 13px;border:1px solid #d9d5cd;border-radius:10px;font:inherit;font-size:14.5px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(47,93,98,.15)}
+.btn{background:var(--accent);color:#fff;border:0;padding:10px 20px;border-radius:10px;font:inherit;font-weight:600;font-size:14px;cursor:pointer}.btn:hover{background:var(--accent-d)}
+.btn.ghost{background:#fff;color:var(--accent);border:1px solid #cfd8d7}.btn.ghost:hover{background:var(--soft)}
+.tab{display:none}.tab.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}.stat b{font:500 30px 'Fraunces',Georgia,serif;display:block}.stat span{font-size:12.5px;color:var(--mute)}
+.top2{display:grid;grid-template-columns:300px 1fr;gap:18px}@media(max-width:800px){.top2{grid-template-columns:1fr}}
+.donutw{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;position:relative;background:var(--line)}
+.donut::after{content:attr(data-n);position:absolute;inset:22px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 24px 'Fraunces',Georgia,serif}
+.leg div{font-size:13.5px;margin:5px 0;display:flex;align-items:center;gap:8px}.leg i{width:10px;height:10px;border-radius:50%}
+.tools{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}.tools input{flex:1;min-width:200px}
+.chips{display:flex;gap:6px}.chip{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:99px;font:inherit;font-size:13px;cursor:pointer;color:var(--mute)}.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--mute);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;padding:10px 8px;border-bottom:1px solid var(--line);font-weight:600}
+td{padding:12px 8px;border-bottom:1px solid #f0ede8}tbody tr{cursor:pointer}tbody tr:hover{background:#faf9f7}
+.pill{padding:3px 11px;border-radius:99px;color:#fff;font-size:12px;font-weight:600}.Low{background:var(--low)}.Moderate{background:var(--mod)}.High{background:var(--high)}
+.del{background:none;border:0;color:#a7aeb4;cursor:pointer;font-size:15px}.del:hover{color:var(--high)}
+.note{font-size:13px;color:var(--mute)}
+.meter{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:5px 0 12px}.meter i{display:block;height:100%;background:var(--accent)}
+.cm{display:grid;grid-template-columns:repeat(2,66px);gap:4px;margin-top:8px}.cm div{padding:12px 0;text-align:center;border-radius:8px;font-weight:600;background:#f6e3e1}.cm .g{background:#dcebe3}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}.row{display:flex;gap:26px;flex-wrap:wrap}
+.tag{display:inline-block;padding:3px 11px;margin:3px;border-radius:99px;background:var(--soft);color:var(--accent);font-size:13px;font-weight:500}.tag.off{background:#efede8;color:#a7aeb4;text-decoration:line-through}
+#login{max-width:380px;margin:60px auto}#login input{width:100%}
+.modalbg{position:fixed;inset:0;background:rgba(31,41,51,.4);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}
+.modal{background:#fff;border-radius:18px;max-width:560px;width:100%;max-height:90vh;overflow:auto;padding:26px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;margin-top:14px}.kv div span{display:block;font-size:12px;color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="bar"><div class="in">
+  <div class="brand"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2f5d62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3.5 12h4l2-3 3 6 2-3h6"/></svg>CardioPredict <span class="tagadm">ADMIN</span></div>
+  <nav id="nav"><button class="active" data-tab="records">Dashboard</button><button data-tab="model">Model insights</button></nav>
+  <div class="right" id="right"><span><span class="dot"></span><span id="store"></span></span><button class="btn ghost" id="logout">Log out</button></div>
+</div></div>
+<main>
+<div class="card" id="login">
+  <h2>Admin sign in</h2><p class="sub">Enter your password to continue.</p>
+  <input type="password" id="pw" placeholder="Password" autofocus>
+  <p id="lerr" style="color:var(--high);font-size:13px;min-height:20px;margin:8px 0"></p>
+  <button class="btn" id="loginBtn" style="width:100%">Sign in</button>
+</div>
+
+<div id="app" style="display:none">
+<section class="tab active" id="records">
+  <div class="stats">
+    <div class="stat"><b id="sTotal">0</b><span>Total assessments</span></div>
+    <div class="stat"><b id="sToday">0</b><span>Added today</span></div>
+    <div class="stat"><b id="sAvgAge">–</b><span>Average age</span></div>
+    <div class="stat"><b id="sHighPct">0%</b><span>High-risk share</span></div>
+  </div>
+  <div class="top2">
+    <div class="card"><h2>Risk mix</h2><p class="sub">All saved assessments</p>
+      <div class="donutw"><div class="donut" id="donut" data-n="0"></div>
+      <div class="leg"><div><i style="background:var(--high)"></i><span id="lHigh">High 0</span></div><div><i style="background:var(--mod)"></i><span id="lMod">Moderate 0</span></div><div><i style="background:var(--low)"></i><span id="lLow">Low 0</span></div></div></div>
+    </div>
+    <div class="card" style="margin-bottom:18px"><h2>Needs attention</h2><p class="sub">Most recent high-risk patients</p><div id="attn" class="note">None yet.</div></div>
+  </div>
+  <div class="card"><h2>Patient records</h2><p class="sub">Click a row to see full details.</p>
+    <div class="tools"><input id="search" placeholder="Search by name…">
+      <div class="chips" id="chips"><button class="chip on" data-r="">All</button><button class="chip" data-r="High">High</button><button class="chip" data-r="Moderate">Moderate</button><button class="chip" data-r="Low">Low</button></div>
+      <button class="btn ghost" id="export">Export CSV</button></div>
+    <div class="scroll"><table><thead><tr><th>#</th><th>Name</th><th>Age</th><th>Sex</th><th>Risk</th><th>Date</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+    <p class="note" id="empty" style="margin-top:14px">No records found.</p>
+  </div>
+</section>
+<section class="tab" id="model">
+  <div class="card"><h2>Model performance</h2><p class="sub" id="split"></p>
+    <div class="scroll"><table><thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1-score</th></tr></thead><tbody id="mrows"></tbody></table></div></div>
+  <div class="two">
+    <div class="card"><h2>Feature selection</h2><p class="sub">Weak features are dropped (struck through). Numbers show correlation with the outcome.</p><div id="feat"></div><div id="corr" style="margin-top:14px"></div></div>
+    <div class="card"><h2>Confusion matrices</h2><p class="sub">Rows = actual, columns = predicted (negative, positive).</p><div class="row" id="cms"></div></div>
+  </div>
+</section>
+</div>
+</main>
+<div class="modalbg" id="mbg"><div class="modal" id="modal"></div></div>
+<script>
+const $=s=>document.querySelector(s), pct=x=>(x*100).toFixed(1)+'%';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LBL={age:'Age',sex:'Sex',cp:'Chest pain type',trestbps:'Resting BP (mm Hg)',chol:'Cholesterol (mg/dl)',fbs:'Fasting sugar > 120',restecg:'Resting ECG',thalach:'Max heart rate',exang:'Exercise angina',oldpeak:'ST depression',slope:'ST slope',ca:'Major vessels',thal:'Thalassemia'};
+const DEC={sex:{1:'Male',0:'Female'},cp:{0:'Typical angina',1:'Atypical angina',2:'Non-anginal',3:'No symptoms'},fbs:{0:'No',1:'Yes'},restecg:{0:'Normal',1:'ST-T abnormality',2:'LV hypertrophy'},exang:{0:'No',1:'Yes'},slope:{0:'Upsloping',1:'Flat',2:'Downsloping'},thal:{1:'Normal',2:'Fixed defect',3:'Reversible defect'}};
+const dec=(k,v)=>DEC[k]&&DEC[k][v]!==undefined?DEC[k][v]:v;
+let DATA=[],FILTER='';
+
+function showApp(on){
+  $('#login').style.display=on?'none':'block'; $('#app').style.display=on?'block':'none';
+  $('#nav').style.display=on?'flex':'none'; $('#right').style.display=on?'flex':'none';
+}
+async function doLogin(){
+  const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({password:$('#pw').value})});
+  if(r.ok){$('#lerr').textContent='';$('#pw').value='';init();}else $('#lerr').textContent='Wrong password. Please try again.';
+}
+$('#loginBtn').onclick=doLogin; $('#pw').onkeydown=e=>{if(e.key==='Enter')doLogin();};
+$('#logout').onclick=async()=>{await fetch('/api/admin/logout');showApp(false);};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button,.tab').forEach(e=>e.classList.remove('active'));
+  b.classList.add('active'); $('#'+b.dataset.tab).classList.add('active');
+  b.dataset.tab==='records'?loadPatients():loadModel();
+});
+async function init(){ showApp(await loadPatients()); }
+
+async function loadPatients(){
+  const r=await fetch('/api/patients'); if(r.status===401)return false;
+  const d=await r.json(); DATA=d.patients; $('#store').textContent=d.storage;
+  const n=DATA.length, c=k=>DATA.filter(x=>x.risk===k).length, h=c('High'), m=c('Moderate'), l=c('Low');
+  const today=new Date().toISOString().slice(0,10);
+  $('#sTotal').textContent=n; $('#sToday').textContent=DATA.filter(x=>(x.created||'').startsWith(today)).length;
+  $('#sAvgAge').textContent=n?Math.round(DATA.reduce((a,x)=>a+x.values.age,0)/n):'–';
+  $('#sHighPct').textContent=n?Math.round(h/n*100)+'%':'0%';
+  $('#lHigh').textContent='High '+h; $('#lMod').textContent='Moderate '+m; $('#lLow').textContent='Low '+l;
+  const a=n?h/n*100:0, b=n?a+m/n*100:0;
+  $('#donut').dataset.n=n;
+  $('#donut').style.background=n?`conic-gradient(var(--high) 0 ${a}%,var(--mod) ${a}% ${b}%,var(--low) ${b}% 100%)`:'var(--line)';
+  const hi=DATA.filter(x=>x.risk==='High').slice(0,4);
+  $('#attn').innerHTML=hi.length?hi.map(x=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0ede8;cursor:pointer;color:var(--ink)" onclick="openRow(${x.id})"><span>${esc(x.name)}</span><span class="note">${x.created}</span></div>`).join(''):'None yet.';
+  render(); return true;
+}
+function render(){
+  const q=$('#search').value.toLowerCase();
+  const p=DATA.filter(x=>x.name.toLowerCase().includes(q)&&(!FILTER||x.risk===FILTER));
+  $('#empty').style.display=p.length?'none':'block';
+  $('#rows').innerHTML=p.map(x=>`<tr onclick="openRow(${x.id})"><td>${x.id}</td><td>${esc(x.name)}</td><td>${x.values.age}</td><td>${dec('sex',x.values.sex)}</td>
+   <td><span class="pill ${x.risk}">${x.risk}</span></td><td>${x.created}</td><td><button class="del" title="Delete" onclick="event.stopPropagation();del(${x.id})">🗑</button></td></tr>`).join('');
+}
+$('#search').oninput=render;
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');FILTER=c.dataset.r;render();});
+async function del(id){ if(!confirm('Delete this record permanently?'))return; await fetch('/api/patients?id='+id,{method:'DELETE'}); $('#mbg').style.display='none'; loadPatients(); }
+
+function openRow(id){
+  const x=DATA.find(y=>y.id===id); if(!x)return;
+  $('#modal').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:start"><div><h2>${esc(x.name)}</h2><p class="note" style="margin:2px 0 0">${x.created} · Record #${x.id}</p></div><span class="pill ${x.risk}">${x.risk} risk</span></div>
+   <div style="margin-top:18px"><div class="note">Combined score ${pct(x.score)}</div><div class="meter"><i style="width:${x.score*100}%"></i></div>
+   <div class="note">KNN ${pct(x.knn)} · Logistic Regression ${pct(x.lr)}</div></div>
+   <div class="kv">${Object.keys(x.values).map(k=>`<div><span>${LBL[k]||k}</span>${dec(k,x.values[k])}</div>`).join('')}</div>
+   <div style="display:flex;gap:10px;margin-top:22px;justify-content:flex-end"><button class="btn ghost" onclick="del(${x.id})">Delete record</button><button class="btn" onclick="$('#mbg').style.display='none'">Close</button></div>`;
+  $('#mbg').style.display='flex';
+}
+$('#mbg').onclick=e=>{if(e.target.id==='mbg')$('#mbg').style.display='none';};
+
+$('#export').onclick=()=>{
+  if(!DATA.length){alert('No records to export');return;}
+  const keys=Object.keys(DATA[0].values);
+  const lines=[['id','name','date','risk','score','knn_prob','lr_prob',...keys].join(',')];
+  DATA.forEach(x=>lines.push([x.id,'"'+x.name.replace(/"/g,'""')+'"',x.created,x.risk,x.score,x.knn,x.lr,...keys.map(k=>x.values[k])].join(',')));
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'})); a.download='patients.csv'; a.click();
+};
+
+async function loadModel(){
+  const r=await fetch('/api/model'); if(r.status===401){showApp(false);return;} const d=await r.json();
+  $('#split').textContent=`Trained on ${d.trainSize} records, tested on ${d.testSize} unseen records. Best K for KNN (5-fold CV): ${d.k}.`;
+  const m=[['KNN (k='+d.k+')',d.knn],['Logistic Regression',d.lr],['Ensemble (average)',d.ensemble]];
+  $('#mrows').innerHTML=m.map(([n,x])=>`<tr style="cursor:default"><td><b>${n}</b></td><td>${pct(x.accuracy)}</td><td>${pct(x.precision)}</td><td>${pct(x.recall)}</td><td>${pct(x.f1)}</td></tr>`).join('');
+  $('#feat').innerHTML=d.features.map(f=>`<span class="tag ${d.selected.includes(f)?'':'off'}">${f}</span>`).join('');
+  $('#corr').innerHTML=d.features.map((f,i)=>`<div style="font-size:13px">${LBL[f]||f} <span style="float:right;color:var(--mute)">${d.corr[i].toFixed(2)}</span></div><div class="meter"><i style="width:${Math.abs(d.corr[i])*100}%"></i></div>`).join('');
+  $('#cms').innerHTML=m.map(([n,x])=>`<div><b style="font-size:13px">${n.split(' ')[0]}</b><div class="cm"><div class="g">${x.tn}</div><div>${x.fp}</div><div>${x.fn}</div><div class="g">${x.tp}</div></div></div>`).join('');
+}
+init();
+</script>
+</body>
+</html>

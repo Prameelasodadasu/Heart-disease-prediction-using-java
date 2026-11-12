@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CardioPredict – Heart Health Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f6f3;--card:#fff;--ink:#1f2933;--mute:#6b7680;--line:#e8e5df;--accent:#2f5d62;--accent-d:#244a4e;--soft:#e9f0ef;--low:#3f8f6b;--mod:#d49a3a;--high:#c4574f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.5}
+h1,h2,h3{font-family:'Fraunces',Georgia,'Times New Roman',serif;font-weight:500;letter-spacing:-.01em}
+.top{max-width:820px;margin:0 auto;padding:26px 20px 0;display:flex;align-items:center;gap:10px}
+.brand{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:600;color:var(--accent)}
+main{max-width:820px;margin:0 auto;padding:10px 20px 60px}
+.intro{padding:26px 0 18px}.intro h1{font-size:38px;margin:0 0 8px}.intro p{margin:0;color:var(--mute);font-size:16px}
+.prog{display:flex;align-items:center;gap:12px;margin:6px 0 20px;font-size:13px;color:var(--mute)}
+.track{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden}.track i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:18px;box-shadow:0 1px 2px rgba(31,41,51,.04)}
+.card h3{margin:0 0 2px;font-size:20px}.card .sub{margin:0 0 18px;color:var(--mute);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+label{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px}
+.hint{display:block;font-weight:400;color:var(--mute);font-size:12px;margin-top:5px}
+input,select{width:100%;padding:11px 13px;border:1px solid #d9d5cd;border-radius:10px;font:inherit;font-size:15px;background:#fff;color:var(--ink);transition:border .15s,box-shadow .15s}
+input::placeholder{color:#a7aeb4}
+select:invalid{color:#a7aeb4}select option{color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(47,93,98,.15)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.btn{background:var(--accent);color:#fff;border:0;padding:13px 28px;border-radius:12px;font:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--accent-d)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid #cfd8d7}.btn.ghost:hover{background:var(--soft)}
+.link{background:none;border:0;color:var(--mute);font:inherit;font-size:14px;cursor:pointer;text-decoration:underline}
+.err{color:var(--high);font-size:14px;margin:0 0 10px;min-height:20px}
+#resultView{display:none;text-align:center}
+.badge{width:84px;height:84px;border-radius:50%;margin:8px auto 16px;display:flex;align-items:center;justify-content:center;font-size:38px;color:#fff}
+#resultView h2{font-size:34px;margin:0 0 6px}
+.lead{max-width:540px;margin:0 auto 4px;color:var(--mute);font-size:16px}
+.tips{text-align:left;max-width:540px;margin:22px auto 8px;background:var(--bg);border-radius:14px;padding:18px 22px}
+.tips b{font-family:'Fraunces',Georgia,serif;font-weight:600}.tips ul{margin:8px 0 0;padding-left:18px}.tips li{margin:6px 0;font-size:14.5px}
+.emergency{max-width:540px;margin:14px auto;font-size:13px;color:var(--mute)}
+.foot{text-align:center;font-size:12.5px;color:var(--mute);margin-top:26px}
+@media print{.top,.actions,.prog{display:none}body{background:#fff}.card{border:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2f5d62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3.5 12h4l2-3 3 6 2-3h6"/></svg>
+  <span class="brand">CardioPredict</span>
+</div>
+<main>
+<section id="formView">
+  <div class="intro"><h1>Heart health check</h1><p>Answer a few questions to see your risk level. It takes about two minutes.</p></div>
+  <div class="prog"><div class="track"><i id="pbar"></i></div><span id="ptext">0 of 13 answered</span></div>
+  <form id="form" novalidate>
+    <div id="sections"></div>
+    <p class="err" id="err"></p>
+    <div class="actions">
+      <button class="btn" type="submit">See my result</button>
+      <button class="btn ghost" type="button" id="sample">Fill sample data</button>
+      <button class="link" type="button" id="clear">Clear form</button>
+    </div>
+  </form>
+  <p class="foot">Your answers are stored securely for your care team. This tool is not a medical diagnosis.</p>
+</section>
+
+<section class="card" id="resultView">
+  <div class="badge" id="rBadge"></div>
+  <p class="lead" id="rHi" style="margin-bottom:2px"></p>
+  <h2 id="rTitle"></h2>
+  <p class="lead" id="rText"></p>
+  <div class="tips"><b>What you can do</b><ul id="rTips"></ul></div>
+  <p class="emergency">If you ever have chest pain, trouble breathing or fainting, seek emergency medical help right away.</p>
+  <div class="actions" style="justify-content:center;margin-top:18px">
+    <button class="btn" id="again">Check another person</button>
+    <button class="btn ghost" id="print">Print result</button>
+  </div>
+  <p class="foot">This is an educational tool and not a medical diagnosis. Please consult a qualified doctor.</p>
+</section>
+</main>
+<script>
+const SEL='Select…';
+const GROUPS=[
+ {t:'About you',s:'Basic details.',f:[
+  {k:'patient_name',l:'Full name',ph:'e.g. Ravi Kumar',opt:true,txt:true},
+  {k:'age',l:'Age',ph:'e.g. 54',min:1,max:120,h:'In years'},
+  {k:'sex',l:'Sex',o:[[1,'Male'],[0,'Female']]}]},
+ {t:'Vitals & blood tests',s:'From a recent check-up or lab report.',f:[
+  {k:'trestbps',l:'Resting blood pressure',ph:'e.g. 130',min:50,max:300,h:'Upper (systolic) value in mm Hg'},
+  {k:'chol',l:'Cholesterol',ph:'e.g. 240',min:50,max:700,h:'Total cholesterol in mg/dl'},
+  {k:'fbs',l:'Fasting blood sugar above 120?',o:[[0,'No'],[1,'Yes']],h:'Measured after fasting'},
+  {k:'thalach',l:'Maximum heart rate',ph:'e.g. 150',min:40,max:250,h:'Highest rate reached during exercise test'}]},
+ {t:'Heart tests & symptoms',s:'Usually found in your ECG or stress-test report.',f:[
+  {k:'cp',l:'Chest pain type',o:[[0,'Typical angina'],[1,'Atypical angina'],[2,'Non-anginal pain'],[3,'No symptoms']]},
+  {k:'restecg',l:'Resting ECG result',o:[[0,'Normal'],[1,'ST-T wave abnormality'],[2,'Left ventricular hypertrophy']]},
+  {k:'exang',l:'Chest pain during exercise?',o:[[0,'No'],[1,'Yes']]},
+  {k:'oldpeak',l:'ST depression',ph:'e.g. 1.2',min:0,max:10,step:.1,h:'Stress-test ECG value'},
+  {k:'slope',l:'ST segment slope',o:[[0,'Upsloping'],[1,'Flat'],[2,'Downsloping']]},
+  {k:'ca',l:'Major vessels coloured (fluoroscopy)',o:[[0,'0'],[1,'1'],[2,'2'],[3,'3']]},
+  {k:'thal',l:'Thalassemia test',o:[[1,'Normal'],[2,'Fixed defect'],[3,'Reversible defect']]}]}
+];
+const SAMPLE={age:54,sex:1,cp:3,trestbps:140,chol:260,fbs:0,restecg:1,thalach:125,exang:1,oldpeak:2,slope:1,ca:1,thal:3,patient_name:'Sample Patient'};
+const $=s=>document.querySelector(s), REQ=GROUPS.flatMap(g=>g.f).filter(f=>!f.opt);
+
+$('#sections').innerHTML=GROUPS.map(g=>`<div class="card"><h3>${g.t}</h3><p class="sub">${g.s}</p><div class="grid">`+g.f.map(f=>
+ `<div><label for="${f.k}">${f.l}${f.opt?' <span style="font-weight:400;color:var(--mute)">(optional)</span>':''}</label>`+
+ (f.o?`<select id="${f.k}" name="${f.k}" required><option value="" disabled selected>${SEL}</option>${f.o.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select>`
+  :`<input id="${f.k}" name="${f.k}" ${f.txt?'type="text" maxlength="100"':`type="number" min="${f.min}" max="${f.max}" step="${f.step||1}" required`} placeholder="${f.ph}">`)+
+ (f.h?`<span class="hint">${f.h}</span>`:'')+'</div>').join('')+'</div></div>').join('');
+
+function progress(){
+  const n=REQ.filter(f=>$('#'+f.k).value!=='').length;
+  $('#pbar').style.width=(n/REQ.length*100)+'%'; $('#ptext').textContent=n+' of '+REQ.length+' answered';
+}
+$('#form').addEventListener('input',progress); $('#form').addEventListener('change',progress);
+$('#sample').onclick=()=>{Object.entries(SAMPLE).forEach(([k,v])=>$('#'+k).value=v);progress();};
+$('#clear').onclick=()=>{$('#form').reset();$('#err').textContent='';progress();};
+
+const R={
+ Low:{c:'var(--low)',i:'✓',t:'Low risk',x:'Your results look reassuring. Keep up your healthy habits.',tips:['Stay active: aim for about 150 minutes of moderate exercise a week.','Eat a balanced diet that is low in salt and processed food.','Get your blood pressure and cholesterol checked once a year.']},
+ Moderate:{c:'var(--mod)',i:'!',t:'Moderate risk',x:'A few risk indicators were found. It is worth discussing them with a doctor.',tips:['Book a consultation with your doctor and share these results.','Monitor your blood pressure and cholesterol regularly.','Cut back on salt, fried food and smoking, and stay active.']},
+ High:{c:'var(--high)',i:'!',t:'High risk',x:'Several risk indicators were found. Please see a cardiologist soon for a proper evaluation.',tips:['Consult a cardiologist as soon as you can.','Avoid strenuous activity until you have been evaluated.','Keep a list of your symptoms and medicines to share with the doctor.']}
+};
+$('#form').onsubmit=async e=>{
+  e.preventDefault(); $('#err').textContent='';
+  const missing=REQ.find(f=>$('#'+f.k).value==='');
+  if(missing){$('#err').textContent='Please fill in: '+missing.l;$('#'+missing.k).focus();return;}
+  const bad=REQ.find(f=>f.min!==undefined&&($('#'+f.k).value<f.min||$('#'+f.k).value>f.max));
+  if(bad){$('#err').textContent=bad.l+' should be between '+bad.min+' and '+bad.max+'.';$('#'+bad.k).focus();return;}
+  let d;
+  try{const r=await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(e.target))});d=await r.json();}
+  catch(x){$('#err').textContent='Could not reach the server. Please try again.';return;}
+  if(d.error){$('#err').textContent=d.error;return;}
+  const v=R[d.risk]; $('#rBadge').style.background=v.c; $('#rBadge').textContent=v.i;
+  $('#rHi').textContent=d.name&&d.name!=='Anonymous'?'Hello '+d.name+', your result is':'Your result is';
+  $('#rTitle').textContent=v.t; $('#rTitle').style.color=v.c; $('#rText').textContent=v.x;
+  $('#rTips').innerHTML=v.tips.map(t=>'<li>'+t+'</li>').join('');
+  $('#formView').style.display='none'; $('#resultView').style.display='block'; window.scrollTo({top:0,behavior:'smooth'});
+};
+$('#again').onclick=()=>{$('#form').reset();progress();$('#resultView').style.display='none';$('#formView').style.display='block';window.scrollTo({top:0});};
+$('#print').onclick=()=>window.print();
+</script>
+</body>
+</html>

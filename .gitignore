@@ -1,0 +1,20 @@
+# build output
+out/
+target/
+sources.txt
+*.class
+
+# MySQL driver jar (download it separately, see README)
+mysql-connector-j-*.jar
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS files
+Thumbs.db
+.DS_Store
