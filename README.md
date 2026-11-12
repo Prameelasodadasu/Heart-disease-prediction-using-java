@@ -50,7 +50,7 @@ The images will then appear automatically. Delete this comment when finished.
 
 | Low risk result | Moderate risk result | High risk result |
 |:---:|:---:|:---:|
-| ![Low risk](/docs/screenshots/03-result-low.png) | ![Moderate risk](docs/screenshots/04-result-moderate.png) | ![High risk](docs/screenshots/05-result-high.png) |
+| ![Low risk](/docs/screenshots/03-result-low.PNG) | ![Moderate risk](docs/screenshots/04-result-moderate.png) | ![High risk](docs/screenshots/05-result-high.png) |
 
 ### Admin interface
 
